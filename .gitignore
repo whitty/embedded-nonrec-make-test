@@ -1,0 +1,10 @@
+obj/
+
+# Editor files
+*~
+\#*\#
+*~
+# flymake-mode
+*_flymake.*
+[._]*.sw[a-p]
+[._]sw[a-p]
