@@ -8,3 +8,5 @@ obj/
 *_flymake.*
 [._]*.sw[a-p]
 [._]sw[a-p]
+
+.upbuild
