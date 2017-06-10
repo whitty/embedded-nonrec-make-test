@@ -27,6 +27,3 @@ UNITTESTS := _integrated
 master_DEPS := master.o common.o $(d)/algorithm/$(OBJDIR)/libalgorithm.a
 
 _integrated_DEPS := _integrated.o
-
-# TODO - implement default inheritance
-INCLUDES_$(d) := $(INCLUDES_$(parent_dir))
