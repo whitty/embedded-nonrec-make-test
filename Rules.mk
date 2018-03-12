@@ -1,4 +1,6 @@
-SUBDIRS := integrated \
+SUBDIRS := \
+	platform \
+	integrated \
 	test
 
 # all sub-directories should be able to include from this level
