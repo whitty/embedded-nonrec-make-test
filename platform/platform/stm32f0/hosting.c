@@ -1,19 +1,19 @@
+// (C) Copyright 2018 Greg Whiteley
+
+#include "abort.h"
+#include <stdlib.h>
+
 void exit(int status)
 {
-    (void)status;
-    for (;;)
-        continue;
+    abort_(status, 0);
 }
 
 void _exit(int status)
 {
-    (void)status;
-    for (;;)
-        continue;
+    abort_(status, 0);
 }
 
-void atexit(void (*function)(void))
+int __attribute__((noreturn)) atexit(void (*function)(void))
 {
-    (void)function;
-    // assert();
+    abort_((unsigned long)function, "atexit() called");
 }
