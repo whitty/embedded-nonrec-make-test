@@ -14,14 +14,14 @@ setup() {
 
 @test "Disturbing binary source means we need to recompile and link" {
   # Should not need to build
-  run do_make -q $(TOP)/integrated/obj/debug/_integrated
+  run do_make -q $(TOP)/integrated/$(OBJDIR)/_integrated
   [ "$status" -eq 0 ]
-  run do_make -q $(TOP)/integrated/obj/debug/_integrated.o
+  run do_make -q $(TOP)/integrated/$(OBJDIR)/_integrated.o
   [ "$status" -eq 0 ]
 
   disturb $(TOP)/integrated/_integrated.cpp
-  run do_make -q $(TOP)/integrated/obj/debug/_integrated.o
+  run do_make -q $(TOP)/integrated/$(OBJDIR)/_integrated.o
   [ "$status" -eq 1 ]
-  run do_make -q $(TOP)/integrated/obj/debug/_integrated
+  run do_make -q $(TOP)/integrated/$(OBJDIR)/_integrated
   [ "$status" -eq 1 ]
 }

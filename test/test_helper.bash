@@ -2,6 +2,10 @@ TOP() {
   dirname "$BATS_TEST_DIRNAME"
 }
 
+OBJDIR() {
+  echo "obj/${BUILD_MODE:-debug}"
+}
+
 disturb() {
   touch -c "$1"
 }

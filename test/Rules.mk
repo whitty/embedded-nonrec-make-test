@@ -1,1 +1,2 @@
-SCRIPT_TESTS := _test.bats
+SCRIPT_TESTS := \
+	_deps.bats
