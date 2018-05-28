@@ -1,0 +1,29 @@
+def build_mode(String mode) {
+  stage("build $mode") {
+    sh "make -j8 BUILD_MODE=$mode"
+  }
+}
+
+def build_and_test_mode(String mode) {
+  build_mode(mode)
+  try {
+    stage("test $mode") {
+      sh "make -j8 BUILD_MODE=$mode test_tree"
+    }
+  } catch (e) {
+    currentBuild.result = 'UNSTABLE'
+    result = "FAIL" // make sure other exceptions are recorded as failure too
+  }
+}
+
+node {
+  stage("preparation") {
+    checkout scm
+  }
+
+  build_and_test_mode("debug");
+  build_and_test_mode("release");
+  build_and_test_mode("profile");
+  build_mode("rpi_debug");
+  build_mode("rpi_release");
+}
