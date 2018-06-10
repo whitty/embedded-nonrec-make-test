@@ -9,6 +9,9 @@ def build_and_test_mode(String mode) {
   try {
     stage("test $mode") {
       sh "make -j8 BUILD_MODE=$mode test_tree"
+      step([$class: 'TapPublisher',
+           testResults: '**/*.test',
+           verbose: true])
     }
   } catch (e) {
     currentBuild.result = 'UNSTABLE'
