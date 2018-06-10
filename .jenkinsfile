@@ -10,7 +10,7 @@ def build_and_test_mode(String mode) {
     stage("test $mode") {
       sh "make -j8 BUILD_MODE=$mode test_tree"
       step([$class: 'TapPublisher',
-           testResults: '**/*.test',
+           testResults: '**/*.bats.test.out',
            verbose: true])
     }
   } catch (e) {
