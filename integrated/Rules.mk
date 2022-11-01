@@ -22,7 +22,7 @@ SUBDIRS := algorithm
 stm32_SUBDIRS := stm32
 
 TARGETS := master _integrated
-UNITTESTS := _integrated
+TESTS := _integrated
 
 master_DEPS := master.o common.o $(d)/algorithm/$(OBJDIR)/libalgorithm.a
 
