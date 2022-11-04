@@ -18,6 +18,7 @@ def build_and_test_mode(String mode, String ver) {
 
 def os_versions = [
   "20.04",
+  "22.04",
 ]
 
 def parallel_versions = [:]
