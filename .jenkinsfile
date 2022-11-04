@@ -1,13 +1,13 @@
-def build_mode(String mode) {
-  stage("build $mode") {
+def build_mode(String mode, String ver) {
+  stage("${ver} build $mode") {
     sh "make -j8 BUILD_MODE=$mode"
   }
 }
 
-def build_and_test_mode(String mode) {
-  build_mode(mode)
+def build_and_test_mode(String mode, String ver) {
+  build_mode(mode, ver)
   try {
-    stage("test $mode") {
+    stage("${ver} test $mode") {
       sh "make -j8 BUILD_MODE=$mode test_tree"
     }
   } catch (e) {
@@ -16,18 +16,34 @@ def build_and_test_mode(String mode) {
   }
 }
 
-node {
-  stage("preparation") {
-    checkout scm
-  }
+def os_versions = [
+  "20.04",
+]
 
-  build_and_test_mode("debug");
-  build_and_test_mode("release");
-  build_and_test_mode("profile");
-  build_mode("rpi_debug");
-  build_mode("rpi_release");
-  // Collect result
-  step([$class: 'TapPublisher',
-       testResults: '**/*.bats.test.out',
-       verbose: true])
-}
+def parallel_versions = [:]
+
+for (v in os_versions) {
+  def os_version = v;
+
+  parallel_versions[os_version] = {
+    node("${os_version}") {
+      stage("${os_version} preparation") {
+        checkout scm
+      }
+
+      build_and_test_mode("debug", os_version);
+      build_and_test_mode("release", os_version);
+      build_and_test_mode("profile", os_version);
+      build_mode("rpi_debug", os_version);
+      build_mode("rpi_release", os_version);
+      // Collect result
+      //  step([$class: 'TapPublisher',
+      //       testResults: '**/*.bats.test.out',
+      //       verbose: true])
+    } // node
+
+  } // parallel
+
+} // os_versions
+
+parallel parallel_versions
